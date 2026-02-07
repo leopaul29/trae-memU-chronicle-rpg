@@ -21,6 +21,12 @@
       "node",
       "react"
     ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
     "incremental": true,
     "plugins": [
       {
