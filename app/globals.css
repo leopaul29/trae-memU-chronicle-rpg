@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --parchment-bg: #0d0c0a;
+}
+
+html, body {
+  height: 100%;
+  background-color: var(--parchment-bg);
+}
+
+body {
+  background-image: radial-gradient(ellipse at top, rgba(255,255,255,0.03), rgba(0,0,0,0.3)), radial-gradient(ellipse at bottom, rgba(255,255,255,0.02), rgba(0,0,0,0.3));
+  background-blend-mode: multiply;
+  color: #e7e4dc;
+}
+
+.gothic-button {
+  @apply font-gothic text-lg md:text-xl px-6 py-4 rounded-md border border-neutral-700 bg-neutral-900/60 text-neutral-100 shadow-gothic tracking-wide hover:bg-neutral-800 transition-colors;
+}
+
+.image-placeholder {
+  @apply w-full rounded-md border border-neutral-700 bg-neutral-900/40 shadow-gothic;
+}
