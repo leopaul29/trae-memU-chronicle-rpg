@@ -82,17 +82,31 @@ export async function POST(req: Request) {
     }
     const client = new MemUClient()
 
-    const memory = await client.retrieve({
-      user_id: body.user_id,
-      agent_id: body.agent_id,
-      query: [
-        { role: "user", content: `Recent action: ${body.action}` },
-        {
-          role: "assistant",
-          content: "Summarize memory relevant to the next narrative beat."
-        }
-      ]
-    })
+    let memory = "No previous history yet. This is the beginning of the journey.";
+
+    try {
+      // On définit une recherche simple si l'action est "start" ou vide
+      const isStart = body.action?.toLowerCase() === "start" || body.action?.toLowerCase() === "start_game";
+
+      const searchQuery = isStart
+        ? "Summarize the current world state and player history."
+        : `Context for: ${body.action}`;
+
+      const memoryData = await client.retrieve({
+        user_id: body.user_id,
+        agent_id: body.agent_id,
+        // Utilise une string simple plutôt qu'un tableau pour éviter l'erreur 500 "INVALID"
+        query: searchQuery
+      });
+      console.log("🔍 Contenu actuel de la mémoire :", JSON.stringify(memoryData.items));
+      // On extrait le contenu si memU renvoie des résultats
+      if (memoryData?.items && memoryData.items.length > 0) {
+        memory = memoryData.items.map(i => i.content).join("\n");
+      }
+    } catch (error) {
+      // Si memU échoue (500, 503, ou vide), on log l'erreur mais on ne bloque pas le jeu !
+      console.warn("MemU retrieve failed or is empty, continuing with default memory context.", error);
+    }
 
     const systemPrompt = MASTER_SYSTEM_PROMPT;
 

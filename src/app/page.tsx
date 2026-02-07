@@ -20,7 +20,6 @@ export default function Page() {
     });
     const data = await res.json();
     setGameData(data);
-    console.log(data);
     setLoading(false);
   };
 
