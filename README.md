@@ -3,6 +3,7 @@
 ### 日本語紹介 (Introduction)
 「センチエント・グリモワール」へようこそ。これは、人工知能が紡ぐ物語に「永遠の記憶」を与える革新的なRPGエンジンです。従来のAIゲームとは異なり、プレイヤーのあらゆる選択は忘れ去られることなく、memUの記憶層に深く刻まれます。あなたの行動が、世界の運命を永続的に変えていく。これは、生きた古文書との対話です。
 
+![homepage](screenshots/chronicle-rpg-homepage.jpg)
 ---
 
 ## 🌟 Project Overview
@@ -60,5 +61,37 @@ The project follows a "Cognitive Loop" structure:
 2. Context Retrieval: The system queries memU for relevant history.
 3. LLM Inference: GPT-4o generates the next narrative beat based on the memory.
 4. Memory Inscription: The LLM issues updates back to memU to save the new state.
+
+## 🧠 How memU is Used
+We treat memU as the game's "Soul." Instead of just storing chat logs, we use it to maintain the **World State** and **Character Relationships**.
+- **World State:** We store key facts like "Player is in the Forbidden Forest" or "The Dragon is awake."
+- **Relationships:** We track how NPCs feel about the player (e.g., "Guard distrusts the player").
+- **Retrieval:** Before generating each scene, we ask memU: *"What does the player need to remember right now?"*
+
+## 🖥️ MemU Interface & Persistence Proof
+To validate the Sentient Grimoire's ability to remember and evolve, we utilize the memU dashboard as our cognitive monitoring tool. Below are the technical logs demonstrating the successful integration of long-term memory.
+
+### 🧠 Agent & Task Management
+Once a player starts their journey, a unique agent (sentient_grimoire_01) is initialized. Every narrative beat and player decision is submitted as a Memorization Task, ensuring that the context is processed and indexed for future retrieval.
+
+Figure 1: The memU dashboard showing the active Sentient Grimoire agent and successful task processing.
+
+![task processing](screenshots/chronicle-rpg-tasks.jpg)
+
+### 📚 Memory Inscription (The "Living" Database)
+Instead of simple text storage, memU extracts "Souvenirs" (Memories). Each screenshot below represents a moment where the AI analyzed the player's action—such as choosing a character class or making a moral decision—and stored it with high-dimensional vectors for semantic search.
+
+Figure 2: Real-time logs of the player's history being etched into the cognitive layer.
+
+![memory inscription](screenshots/chronicle-rpg-agent-conversation.jpg)
+
+### 🔍 Contextual Retrieval in Action
+When the player encounters a new event, the system performs a Semantic Retrieval. This allows the Grimoire to "recall" specific past interactions, even if they happened hundreds of turns ago, solving the "Context Amnesia" common in standard LLM applications.
+
+Technical Note: Each retrieval query is weighted based on the current narrative state, ensuring the most relevant memories are prioritized for the next story beat.
+
+Figure 3: Detailed view of retrieved memory items being injected back into the LLM prompt.
+
+![contextual retrieval](screenshots/chronicle-rpg-logs.jpg)
 ---
 Created for the memU x Trae Hackathon 2026.
