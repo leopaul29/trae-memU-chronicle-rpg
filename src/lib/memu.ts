@@ -1,5 +1,3 @@
-const BASE_URL = "https://api.memu.so"
-
 type ConversationMessage = {
   role: "user" | "assistant"
   name?: string
@@ -18,15 +16,15 @@ export type MemorizePayload = {
 
 export type RetrievePayload =
   | {
-      user_id: string
-      agent_id: string
-      query: string
-    }
+    user_id: string
+    agent_id: string
+    query: string
+  }
   | {
-      user_id: string
-      agent_id: string
-      query: ConversationMessage[]
-    }
+    user_id: string
+    agent_id: string
+    query: ConversationMessage[]
+  }
 
 export type MemUCategoriesPayload = {
   user_id: string
@@ -37,7 +35,7 @@ export class MemUClient {
   private apiKey: string
   private baseUrl: string
 
-  constructor(apiKey = process.env.MEMU_API_KEY ?? "", baseUrl = BASE_URL) {
+  constructor(apiKey = process.env.MEMU_API_KEY ?? "", baseUrl = process.env.MEMU_API_URL ?? "") {
     if (!apiKey) {
       throw new Error("Missing MEMU_API_KEY")
     }
