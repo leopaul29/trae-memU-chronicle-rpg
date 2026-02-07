@@ -39,14 +39,16 @@ In most AI adventures, once the conversation window fills up, the AI begins to f
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/your-username/chronicle-rpg.git](https://github.com/your-username/chronicle-rpg.git)
+   git clone https://github.com/your-username/chronicle-rpg.git
 2. Install dependencies:
    ```bash
    npm install
 3. Create a .env file in the root directory:
    ```bash
    OPENAI_API_KEY=your_openai_key
+   OPENAI_MODEL=gpt-4o-mini
    MEMU_API_KEY=your_memu_key
+   MEMU_API_URL=https://api.memu.so
    ```
 4. Run the development server:
    ```bash
