@@ -1,28 +1,49 @@
-export default function Page() {
-  return (
-    <main className="mx-auto max-w-5xl px-4 py-6 md:py-10 space-y-6 md:space-y-8">
-      <section className="image-placeholder h-64 md:h-96" />
+"use client";
+import { useState, useEffect } from "react";
 
-      <section className="rounded-md border border-neutral-700 bg-neutral-900/50 shadow-gothic">
-        <div className="p-4 md:p-6">
-          <h1 className="font-gothic text-2xl md:text-3xl mb-3 md:mb-4">Narration</h1>
-          <div className="h-60 md:h-72 overflow-y-auto pr-2 md:pr-3">
-            <p className="text-neutral-200 leading-relaxed">
-              The Grimoire whispers in a voice like rusted chains, telling of pathways that coil through shadowed halls. Candles gutter and the parchment breathes. Choices await below.
-            </p>
-            <p className="mt-4 text-neutral-300">
-              Scroll for more. This window will hold the living story.
-            </p>
-            <div className="h-40" />
-          </div>
-        </div>
+export default function Page() {
+  const [gameData, setGameData] = useState({
+    narration: "The Grimoire is silent, waiting for you to wake it...",
+    choices: [{ label: "Awaken the Grimoire", value: "start_game" }]
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleAction = async (actionValue: string) => {
+    setLoading(true);
+    const res = await fetch("/api/game", {
+      method: "POST",
+      body: JSON.stringify({
+        action: actionValue,
+        user_id: "player_123", // For the hackathon, hardcode or use a session ID
+        agent_id: "sentient_grimoire_01"
+      }),
+    });
+    const data = await res.json();
+    setGameData(data);
+    console.log(data);
+    setLoading(false);
+  };
+
+  return (
+    <main className="mx-auto max-w-5xl px-4 py-6 space-y-8 bg-black text-amber-50 min-h-screen font-serif">
+      {/* Narrative Window */}
+      <section className="p-6 border border-amber-900/50 bg-neutral-900/80 rounded-lg shadow-2xl">
+        <p className="text-xl leading-relaxed italic">{loading ? "The ink is flowing..." : gameData.narration}</p>
       </section>
 
-      <section className="flex flex-col md:flex-row gap-4 md:gap-6">
-        <button className="gothic-button flex-1">Approach the altar</button>
-        <button className="gothic-button flex-1">Inspect the sigils</button>
-        <button className="gothic-button flex-1">Turn back</button>
+      {/* Dynamic Buttons */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {gameData.choices.map((choice, i) => (
+          <button
+            key={i}
+            disabled={loading}
+            onClick={() => handleAction(choice.value)}
+            className="p-4 border border-amber-700 bg-amber-950/30 hover:bg-amber-900/50 transition-all rounded text-lg font-bold"
+          >
+            {choice.label}
+          </button>
+        ))}
       </section>
     </main>
-  )
+  );
 }

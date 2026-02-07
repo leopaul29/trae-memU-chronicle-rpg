@@ -1,4 +1,5 @@
 import { MemUClient, waitForMemorizeSuccess } from "@/lib/memu"
+import { MASTER_SYSTEM_PROMPT } from "@/lib/prompt";
 
 type RequestBody = {
   action: string
@@ -20,7 +21,7 @@ function extractJson(text: string) {
     if (match) {
       try {
         return JSON.parse(match[0])
-      } catch {}
+      } catch { }
     }
     return null
   }
@@ -93,9 +94,7 @@ export async function POST(req: Request) {
       ]
     })
 
-    const systemPrompt =
-      process.env.MASTER_SYSTEM_PROMPT ??
-      "You are the Sentient Grimoire. Return JSON with fields: narration, choices[], memu_updates[]."
+    const systemPrompt = MASTER_SYSTEM_PROMPT;
 
     const llmResult = await callLLM(systemPrompt, {
       action: body.action,
